@@ -19,6 +19,7 @@ gray = cv2.blur(gray, (7, 7)) # improve the HoughCircles detection
 
 circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.1, 150)
 circleAreas = []
+cards = []
 
 # https://www.pyimagesearch.com/2014/07/21/detecting-circles-images-using-opencv-hough-circles/
 # At least one circle is found ?
@@ -31,6 +32,12 @@ if circles is not None:
         circleAreas.append(pi * r**2)        
         # add a white circle to the mask
         cv2.circle(mask, (x, y), r-1, (255,255,255), -1)
+        # extract card by card to use feature match with FLANN
+        card_mask = np.zeros((height,width), np.uint8)
+        cv2.circle(card_mask, (x, y), r-1, (255,255,255), -1)
+        extracted_card = cv2.bitwise_and(frame, frame, mask=card_mask)
+        card = np.zeros((height,width,3), np.uint8)
+        cards.append(cv2.bitwise_or(card, extracted_card))
 
     # Extract the circles with the mask
     extracted_data = cv2.bitwise_and(frame, frame, mask=mask)
@@ -54,45 +61,38 @@ if circles is not None:
     search_params = dict(checks=20)   # or pass empty dictionary
     flann = cv2.FlannBasedMatcher(index_params,search_params)
 
-    # Draw the bounding rect box of each contours
-    for c, h in zip(contours, hierarchy[0]):
-        # We draw only if we are in the card circle
-        # AND if it's direct child of the card circle
-        if 100 < cv2.contourArea(c) < minCardArea and hierarchy[0][h[3]][3] == -1:
-            brect = cv2.boundingRect(c)
-
-            # Now, we have to search template matching in the complete capture
-            x,y,w,h = brect
-            roi = frame[y:y+h,x:x+w]
-            # Hide the current part to avoid matching with itself
-            frame_hide = frame.copy()
-            cv2.rectangle(frame_hide, brect, (0,0,0), -1)
-            
-            # find the keypoints and descriptors with SIFT
-            kp1, des1 = sift.detectAndCompute(roi,None)
-            kp2, des2 = sift.detectAndCompute(frame_hide,None)
-            
+    for i in range(0, len(cards)-1):
+        # find the keypoints and descriptors with SIFT
+        kp1, des1 = sift.detectAndCompute(cards[i],None)
+        for j in range(i+1, len(cards)):
+            kp2, des2 = sift.detectAndCompute(cards[j],None)
             matches = flann.knnMatch(des1,des2,k=2)
             # ratio test as per Lowe's paper
-            good = [1 for (m,n) in matches if m.distance < 0.26*n.distance]
-            #print(len(good))
+            matches = [(m,n) for (m,n) in matches if m.distance < 0.27*n.distance]
             '''
             # Need to draw only good matches, so create a mask
             matchesMask = [[0,0] for i in range(len(matches))]
             for i,(m,n) in enumerate(matches):
-                if m.distance < 0.3*n.distance:
-                    matchesMask[i]=[1,0]
+                matchesMask[i]=[1,0]
             draw_params = dict(matchColor = (0,255,0),
                             singlePointColor = (255,0,0),
                             matchesMask = matchesMask,
                             flags = cv2.DrawMatchesFlags_DEFAULT)
-            img3 = cv2.drawMatchesKnn(roi,kp1,frame_hide,kp2,matches,None,**draw_params)
-            '''
-            if len(good) > 0:
-                cv2.rectangle(oframe, brect, (0,255,0), 2)
-            #else:
-            #    cv2.rectangle(oframe, brect, (244,157,42), 2)
-            #cv2.imshow("roi", img3)
+            img_matches = cv2.drawMatchesKnn(cards[0],kp1,cards[1],kp2,matches,None,**draw_params)
+            #'''
+            
+            # retrieve the boundingRect for each match
+            for (m,n) in matches:
+                p1 = kp1[m.queryIdx].pt
+                p2 = kp2[m.trainIdx].pt
+
+                for c, h in zip(contours, hierarchy[0]):
+                    # We draw only if we are in the card circle
+                    # AND if it's direct child of the card circle
+                    if 100 < cv2.contourArea(c) < minCardArea and hierarchy[0][h[3]][3] == -1:
+                        if cv2.pointPolygonTest(c,p1,True) >= 0 or cv2.pointPolygonTest(c,p2,True) >= 0:
+                            cv2.rectangle(oframe, cv2.boundingRect(c), (0,255,0), 2)
+                    
 
 #cv2.imshow("output", np.hstack([frame, output]))
 #cv2.namedWindow("Result", cv2.WINDOW_AUTOSIZE)

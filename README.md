@@ -1,7 +1,7 @@
 # Double game 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/mit)
 [![openCV version](https://img.shields.io/badge/openCV-%3E%3D%204.2-green)](https://img.shields.io/badge/openCV-%3E%3D%204.2-green)  
-A program to find common element on the double game
+A program to find the common element on the double's game
 
 
 ## How to use
@@ -13,7 +13,7 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D OPENCV_ENABLE_NONFREE=ON \
       -D OPENCV_EXTRA_MODULES_PATH=~/opencv_src/opencv_contrib/modules ../opencv
 ```
-You can test the detection of the common element like this:
+Test the detection of the common element:
 ```sh
 python3 doublegame.py test/card_06.png
 ```
