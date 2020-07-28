@@ -7,8 +7,9 @@ A repository of my opencv projects
 
 | Project | Description | Preview |
 --- | --- |:---:|
-[moveTracking](moveTracking) | A program to track movement using openCV (only CPU) | <img alt="movetracking_preview" src="moveTracking/screenshot/road_capture.png" width="200px"/>
+[moveTracking](moveTracking) | A program to track movement using openCV (only CPU) and send notifications via Telegram | <img alt="movetracking_preview" src="moveTracking/screenshot/road_capture.png" width="200px"/>
 [double game](doublegame) | A program to find the common element on the double's game | <img alt="doublegame_preview" src="doublegame/screenshot/result.png" width="200px"/>
+[digit recognition](digit_recognition) | A program to recognize handwritten number digit | <img alt="doublegame_preview" src="digit_recognition/screenshot/result.png" width="200px"/>
 
 ## OpenCV configuration
 
