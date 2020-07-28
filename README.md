@@ -1,34 +1,33 @@
-# Double game 
+# My OpenCV projects
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/mit)
 [![openCV version](https://img.shields.io/badge/openCV-%3E%3D%204.2-green)](https://img.shields.io/badge/openCV-%3E%3D%204.2-green)  
-A program to find the common element on the double's game
+A repository of my opencv projects
 
+## The projects
 
-## How to use
-You need the non free algorithms of openCV, so I compile it from source with this command:
+| Project | Description | Preview |
+--- | --- |:---:|
+[moveTracking](moveTracking) | A program to track movement using openCV (only CPU) | <img alt="movetracking_preview" src="moveTracking/screenshot/road_capture.png" width="200px"/>
+[double game](doublegame) | A program to find the common element on the double's game | <img alt="doublegame_preview" src="doublegame/screenshot/result.png" width="200px"/>
+
+## OpenCV configuration
+
+I compiled OpenCV 4.2 from source with the `opencv_contrib` and `NONFREE algorithms`, so to have the same configuration as me, follow these commands:
+
 ```sh
+mkdir opencv_src && cd opencv_src
+git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv_contrib.git
+mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
       -D OPENCV_GENERATE_PKGCONFIG=ON \
       -D OPENCV_ENABLE_NONFREE=ON \
       -D OPENCV_EXTRA_MODULES_PATH=~/opencv_src/opencv_contrib/modules ../opencv
+# find out number of CPU cores in your machine
+nproc # return 12 for me
+make -j12
+sudo make install
+pkg-config --modversion opencv4
+python3 -c "import cv2; print(cv2.__version__)"
 ```
-Test the detection of the common element:
-```sh
-python3 doublegame.py test/card_06.png
-```
-You will obtain something like this:  
-![result](screenshot/result.png)]
-
-## How it works
-
-* Read image
-* Transform into grayscale
-* Detect the cards (circles)
-  * Apply a blur to improve the [HoughCircles](https://docs.opencv.org/master/da/d53/tutorial_py_houghcircles.html) detection
-* Extract the cards for an image without background
-* Apply a threshold for the contours detection
-* Make a [FLANN matching](https://docs.opencv.org/master/dc/dc3/tutorial_py_matcher.html) between each card to find the macthing points
-* For each match, retrieve the corresponding contour to draw the bounding rect
-
-![processing](screenshot/processing.png)

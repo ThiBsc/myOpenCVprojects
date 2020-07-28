@@ -1,0 +1,6 @@
+'''
+Include this file in telegram.py
+'''
+
+TELEGRAM_API = 'YOUR-API-KEY'
+TELEGRAM_USRID_WHITELIST = ('user_id')

@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# moveTracking
+notify.jpg
+capture.jpg
+alert.jpg
+record.mp4
+telegram_cfg.py
