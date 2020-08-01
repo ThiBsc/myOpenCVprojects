@@ -25,7 +25,8 @@ python3 objtrack.py --width 640 --height 480
 Install openCV 4 on your raspberry pi (Ex. [this tutorial](https://morioh.com/p/c1a83b6bc2d3))
 
 ```sh
-git clone https://github.com/thibsc/moveTracking.git
+git clone https://github.com/ThiBsc/myOpenCVprojects.git
+cd myOpenCVprojects
 workon cv
 python moveTracking/src/objtrack.py -i /path/to/your/file.mp4
 ```
