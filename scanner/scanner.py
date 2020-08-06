@@ -16,7 +16,7 @@ def scanFile(file, color=False, pdf=False):
     ret, thresh = cv2.threshold(blur, 115, 255, cv2.THRESH_BINARY)
     #cv2.imshow('thresh', thresh)
 
-    # find the contours of the marker and draw it
+    # find the contours of the document
     cnts, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = [c for c in cnts if cv2.contourArea(c) > 500]
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
             print('PDF output not implement yet')
     
     scan = scanFile(file, color=bColor, pdf=bPDF)
-    scan = cv2.resize(scan, (0,0), fx=0.6, fy=0.6)
+    #scan = cv2.resize(scan, (0,0), fx=0.6, fy=0.6)
 
     cv2.imshow('scan', scan)
     cv2.waitKey(0)
