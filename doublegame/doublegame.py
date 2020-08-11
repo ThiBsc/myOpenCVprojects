@@ -1,5 +1,4 @@
 # import the necessary packages
-from math import pi
 import sys
 import cv2
 import numpy as np
@@ -29,7 +28,7 @@ if circles is not None:
     # Create a mask to extract each circle from frame
     mask = np.zeros((height,width), np.uint8)
     for (x, y, r) in circles:
-        circleAreas.append(pi * r**2)        
+        circleAreas.append(np.pi * r**2)
         # add a white circle to the mask
         cv2.circle(mask, (x, y), r-1, (255,255,255), -1)
         # extract card by card to use feature match with FLANN
