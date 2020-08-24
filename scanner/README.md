@@ -6,7 +6,7 @@ A script to extract document from an image and make a scanner like render
 ## How to use
 Specify a file with a document on it:
 ```sh
-# option: --color, --pdf (not implement yet)
+# option: --color, --output
 python3 scanner.py [option] test/doc_normal.jpg
 ```
 

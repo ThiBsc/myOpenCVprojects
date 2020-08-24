@@ -4,7 +4,7 @@ import math, sys, getopt
 import numpy as np
 
 
-def scanFile(file, color=False, pdf=False):
+def scanFile(file, color=False):
     # read image
     oframe = cv2.imread(file, cv2.IMREAD_COLOR)
     frame = oframe.copy()
@@ -67,27 +67,29 @@ Manage the program arguments
 if __name__ == "__main__":
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'h', ['help','color','pdf'])
+        opts, args = getopt.getopt(sys.argv[1:], 'ho:', ['help','color','output='])
     except getopt.GetoptError:
         print('scanner.py [option] image')
         sys.exit()
     
     file = args[-1]
     bColor = False
-    bPDF = False
+    output = None
     for opt, arg in opts:
         if opt in ('-h', '--help') or len(args) < 1:
             print('scanner.py [option] image')
             sys.exit()
         elif opt == '--color':
             bColor = True
-        elif opt == '--pdf':
-            bPDF = True
-            print('PDF output not implement yet')
+        elif opt in ('-o', '--output'):
+            output = str(arg)
     
-    scan = scanFile(file, color=bColor, pdf=bPDF)
+    scan = scanFile(file, color=bColor)
     #scan = cv2.resize(scan, (0,0), fx=0.6, fy=0.6)
 
-    cv2.imshow('scan', scan)
+    if output is not None:
+        cv2.imwrite(output, scan)
+    else:
+        cv2.imshow('scan', scan)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

@@ -109,8 +109,6 @@ for c in cnts:
                 # the match is given by the highest loss of white pixel
                 before = np.sum(v == 255)
                 matching = 100 - (np.sum(bitwise == 255) / before * 100)
-                #print(9-i, matching)
-                #cv2.imshow('digit_%d' % (9-i), bitwise)
                 if percent_white_pix < matching:
                     percent_white_pix = matching
                     value = '123456789VDRA'[i]
