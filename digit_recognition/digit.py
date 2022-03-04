@@ -1,23 +1,21 @@
+#!/usr/bin/env python3
 import cv2
 import numpy as np
 
-# generate a digit set
-txtSize, baseline = cv2.getTextSize('0123456789', cv2.FONT_HERSHEY_SIMPLEX, 3, 5)
+SCALE = 3
+THICK = 5
+WHITE = (255, 255, 255)
 
-# create an image of size txtSize
-digits_img = np.zeros((txtSize[1]+7, txtSize[0]), np.uint8)
-cv2.putText(digits_img, '0123456789', (0, txtSize[1]+2), cv2.FONT_HERSHEY_SIMPLEX, 3, (255,255,255), 5)
-#cv2.imshow('digits', digits_img)
-
-# find contours of all digits
-cnts, hierarchy = cv2.findContours(digits_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-# sort digit from left to right
-cnts.sort(key=lambda c: cv2.boundingRect(c)[0])
-
+# generate the digit set
 digits = []
-for c in cnts:
-    x,y,w,h = cv2.boundingRect(c)
-    digits.append(digits_img[y:y+h, x:x+w])
+for digit in map(str, range(10)):
+    (width, height), bline = cv2.getTextSize(digit, cv2.FONT_HERSHEY_SIMPLEX,
+                                             SCALE, THICK)
+    digits.append(np.zeros((height + bline, width), np.uint8))
+    cv2.putText(digits[-1], digit, (0, height), cv2.FONT_HERSHEY_SIMPLEX,
+                SCALE, WHITE, THICK)
+    x0, y0, w, h = cv2.boundingRect(digits[-1])
+    digits[-1] = digits[-1][y0:y0+h, x0:x0+w]
 
 def detect(img):
     # dilate the draw
@@ -88,3 +86,4 @@ while(1):
 
 #cv2.imshow('digits', digits)
 cv2.destroyAllWindows()
+
