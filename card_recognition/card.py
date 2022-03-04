@@ -26,8 +26,8 @@ cnts_val, hierarchy = cv2.findContours(values_img, cv2.RETR_EXTERNAL, cv2.CHAIN_
 cnts_sym, hierarchy = cv2.findContours(symbols_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 # sort symbols from left to right
-cnts_val.sort(key=lambda c: cv2.boundingRect(c)[0])
-cnts_sym.sort(key=lambda c: cv2.boundingRect(c)[0])
+cnts_val = sorted(cnts_val, key=lambda c: cv2.boundingRect(c)[0])
+cnts_sym = sorted(cnts_sym, key=lambda c: cv2.boundingRect(c)[0])
 
 values = []
 for c in cnts_val:
