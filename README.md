@@ -5,13 +5,14 @@ A repository of my opencv projects
 
 ## The projects
 
-| Project | Description | Preview |
---- | --- |:---:|
+| Project | Description                                                                             | Preview |
+--- |-----------------------------------------------------------------------------------------|:---:|
 [moveTracking](moveTracking) | A program to track movement using openCV (only CPU) and send notifications via Telegram | <img alt="movetracking_preview" src="moveTracking/screenshot/road_capture.png" width="200px"/>
-[digit recognition](digit_recognition) | A program to recognize handwritten number digit | <img alt="digit_preview" src="digit_recognition/screenshot/result.png" width="200px"/>
-[playing cards recognition](card_recognition) | A script to recognize playing cards | <img alt="playingcards_preview" src="card_recognition/screenshot/result.png" width="200px"/>
-[scanner](scanner) | A script to make a scanner like render | <img alt="scanner_processing" src="scanner/screenshot/processing.png" width="200px"/>
-[double game](doublegame) | A script to find the common element on the double's game | <img alt="doublegame_preview" src="doublegame/screenshot/result.png" width="200px"/>
+[digit recognition](digit_recognition) | A program to recognize handwritten number digit                                         | <img alt="digit_preview" src="digit_recognition/screenshot/result.png" width="200px"/>
+[playing cards recognition](card_recognition) | A script to recognize playing cards                                                     | <img alt="playingcards_preview" src="card_recognition/screenshot/result.png" width="200px"/>
+[color detection](color_recognition) | A script to detect a showed color                                                       | <img alt="doublegame_preview" src="color_recognition/screenshot/result.png" width="200px"/>
+[scanner](scanner) | A script to make a scanner like render                                                  | <img alt="scanner_processing" src="scanner/screenshot/processing.png" width="200px"/>
+[double game](doublegame) | A script to find the common element on the double's game                                | <img alt="doublegame_preview" src="doublegame/screenshot/result.png" width="200px"/>
 
 ## OpenCV configuration
 
